@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<launch>
+  <include file="$(find autolabor_gazebo_worlds)/launch/start.launch">
+   <arg name="world" value="$(find autolabor_gazebo_worlds)/worlds/autolabor_city_world"/> 
+  </include>
+
+</launch>

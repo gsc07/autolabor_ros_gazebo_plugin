@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<robot>
+
+    <gazebo reference="base_link">
+        <mu1>0.3</mu1>
+        <mu2>0.3</mu2>
+    </gazebo>
+
+    <gazebo reference="left_front_wheel">
+    	<mu1>0.5</mu1>
+    	<mu2>0.5</mu2>
+    </gazebo>
+
+    <gazebo reference="left_back_wheel">
+    	<mu1>0.5</mu1>
+    	<mu2>0.5</mu2>
+    </gazebo>
+
+    <gazebo reference="right_front_wheel">
+    	<mu1>0.5</mu1>
+    	<mu2>0.5</mu2>
+    </gazebo>
+
+    <gazebo reference="right_back_wheel">
+    	<mu1>0.5</mu1>
+    	<mu2>0.5</mu2>
+    </gazebo>
+
+    <gazebo>
+        <plugin name="autolabor_driver_gazebo_plugin" filename="libfour_wheel_diff_driver_plugin.so">
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_link</robotBaseFrame>
+            <worldFrame>world</worldFrame>
+
+            <publishWheelTF>false</publishWheelTF>
+            <publishOdomTF>true</publishOdomTF>
+            <publishWorldTF>true</publishWorldTF>
+            <publishWheelJointState>false</publishWheelJointState>
+            <legacyMode>false</legacyMode>
+
+            <wheelSeparation>0.80</wheelSeparation>
+            <wheelDiameter>0.25</wheelDiameter>
+            <wheelAcceleration>0.0</wheelAcceleration>
+            <wheelTorque>100.0</wheelTorque>
+            <updateRate>10.0</updateRate>
+
+            <leftFrontWheelJoint>joint_left_front</leftFrontWheelJoint>
+            <leftBackWheelJoint>joint_left_back</leftBackWheelJoint>
+            <rightFrontWheelJoint>joint_right_front</rightFrontWheelJoint>
+            <rightBackWheelJoint>joint_right_back</rightBackWheelJoint>
+        </plugin>
+    </gazebo>
+
+    <gazebo reference="imu_link">
+        <gravity>true</gravity>
+        <sensor name="imu_sensor" type="imu">
+            <always_on>true</always_on>
+            <update_rate>20</update_rate>
+            <visualize>true</visualize>
+            <topic>imu</topic>
+            <plugin filename="libimu_plugin.so" name="imu_plugin">
+                <topicName>imu</topicName>
+                <bodyName>imu_link</bodyName>
+                <updateRateHZ>10</updateRateHZ>
+                <gaussianNoise>0.0</gaussianNoise>
+                <xyzOffset>0 0 0</xyzOffset>
+                <rpyOffset>0 0 0</rpyOffset>
+                <frameName>imu_link</frameName>
+                <enableOrientation>true</enableOrientation>
+                <initialOrientationAsReference>false</initialOrientationAsReference>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+
+    <gazebo reference="lider_1_link">
+        <sensor name="sensor_ray" type="gpu_ray">
+        <!--pose>0.4 0.0 0.3 0.0 0.0 0.0</pose-->
+            <ray>
+                <scan display="true">
+                    <horizontal>
+                        <samples>500</samples>
+                        <resolution>1.0</resolution>
+                        <min_angle>-1.0</min_angle>
+                        <max_angle>1.0</max_angle>
+                    </horizontal>
+                    <vertical>
+                        <samples>160</samples>
+                        <resolution>1.0</resolution>
+                        <min_angle>-0.1</min_angle>
+                        <max_angle>0.1</max_angle>
+                    </vertical>
+                </scan>
+                <range>
+                    <min>0.05</min>
+                    <max>160.0</max>
+                </range>
+            </ray>
+
+            <plugin name="plugin_1" filename="libblocklaser_plugin.so">
+                <gaussianNoise>0.00</gaussianNoise>
+                <alwaysOn>true</alwaysOn>
+                <updateRate>10</updateRate>
+                <topicName>points2</topicName>
+                <frameName>lider_1_link</frameName>
+            </plugin>
+            <always_on>true</always_on>
+            <update_rate>10</update_rate>
+        </sensor>
+    </gazebo>
+</robot>
